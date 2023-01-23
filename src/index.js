@@ -66,9 +66,6 @@ function onSubmitGetValue(e) {
     }
     pixabayApi.addPage();
 
-    // const pagesAmount = pixabayApi.allImages / pixabayApi.page;
-
-    // if (pixabayApi.page === pagesAmount) {
     if (total <= 40) {
       refs.loadMoreBtn.classList.add('is-hidden');
       Notify.warning(

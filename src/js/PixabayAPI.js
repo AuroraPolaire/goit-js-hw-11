@@ -29,7 +29,6 @@ export class PixabayApi {
 
     try {
       const response = await axios.get(url);
-      console.log(response);
       return response;
     } catch (error) {
       Notify.failure(error.message);
@@ -58,13 +57,5 @@ export class PixabayApi {
 
   hasMorePhotos() {
     return this.#page <= Math.ceil(this.#allImages / 40);
-  }
-
-  get allImages() {
-    return this.#allImages;
-  }
-
-  get page() {
-    return this.#page;
   }
 }
