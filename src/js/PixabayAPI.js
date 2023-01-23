@@ -1,23 +1,39 @@
+import axios from 'axios';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 export class PixabayApi {
   #baseUrl = 'https://pixabay.com/api/';
-  #api = '33016957-599281d6368203287fa88dc81';
+  #apiId = '33016957-599281d6368203287fa88dc81';
   #query = '';
   #page = 1;
   #allImages = 0;
 
-  getPhoto() {
-    const url = `${this.#baseUrl}?key=${this.#api}&q=${
+  async getPhoto() {
+    // const params = {
+    //   params: {
+    //     key: this.#apiId,
+    //     q: this.#query,
+    //     image_type: 'photo',
+    //     orientation: 'horizontal',
+    //     safesearch: 'true',
+    //     per_page: 40,
+    //     page: this.#page,
+    //   },
+    // };
+
+    const url = `${this.#baseUrl}?key=${this.#apiId}&q=${
       this.#query
     }&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${
       this.#page
     }`;
 
-    return fetch(url).then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    });
+    try {
+      const response = await axios.get(url);
+      console.log(response);
+      return response;
+    } catch (error) {
+      Notify.failure(error.message);
+    }
   }
 
   get query() {

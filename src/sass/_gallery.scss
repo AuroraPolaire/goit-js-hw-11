@@ -56,10 +56,6 @@
   justify-content: center;
   text-align: center;
   gap: 35px;
-
-  // border-right: 1px solid #eee;
-  // border-bottom: 1px solid #eee;
-  // border-left: 1px solid #eee;
 }
 
 .info-item {
@@ -83,11 +79,11 @@ img {
 }
 
 .load-more {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 50%;
-  height: 40px;
-  padding: 5px 20px;
+  margin: 25px auto;
+  display: block;
+
+  height: 45px;
+  padding: 5px 30px;
   border-radius: 3px;
   border: 1px solid #8cd5ebd7;
   background-color: #8cd5eb;
