@@ -16,11 +16,11 @@ Loading.init({
   svgColor: 'black',
 });
 
-function onSubmitGetValue(e) {
+async function onSubmitGetValue(e) {
   e.preventDefault();
 
-  let value = e.currentTarget.elements.searchQuery.value;
-  pixabayApi.query = value.trim();
+  let value = e.currentTarget.elements.searchQuery.value.trim();
+  pixabayApi.query = value;
 
   e.currentTarget.reset();
   pixabayApi.resetPage();
@@ -34,9 +34,11 @@ function onSubmitGetValue(e) {
     return;
   }
 
-  pixabayApi.getPhoto().then(response => {
+  try {
+    const response = await pixabayApi.getPhoto();
     const { hits, total } = response.data;
-    if (total === 0) {
+
+    if (!total) {
       Notify.failure(
         'Sorry, there are NO images matching your search query. Please try again.'
       );
@@ -44,6 +46,7 @@ function onSubmitGetValue(e) {
       refs.loadMoreBtn.classList.add('is-hidden');
       return;
     }
+
     Loading.pulse();
 
     pixabayApi.allImagesSum(total);
@@ -74,17 +77,23 @@ function onSubmitGetValue(e) {
     }
 
     Loading.remove(1000);
-  });
+  } catch (error) {
+    Notify.failure(error.message);
+  }
 }
 
-function onClickLoadImages(e) {
-  pixabayApi.getPhoto().then(response => {
-    const { hits, total } = response.data;
+async function onClickLoadImages(e) {
+  try {
+    const response = await pixabayApi.getPhoto();
+    const { hits } = response.data;
+
     Loading.pulse();
     pixabayApi.addPage();
 
     const markup = gallery(hits);
     refs.gallery.insertAdjacentHTML('beforeend', markup);
+
+    // soft scroll code//
 
     const { height: cardHeight } = document
       .querySelector('.photo-card')
@@ -94,6 +103,8 @@ function onClickLoadImages(e) {
       top: cardHeight * 2,
       behavior: 'smooth',
     });
+
+    //soft scroll code//
 
     gallerySL.refresh();
 
@@ -105,7 +116,9 @@ function onClickLoadImages(e) {
       );
     }
     Loading.remove(1000);
-  });
+  } catch (error) {
+    Notify.failure(error.message);
+  }
 }
 
 refs.loadMoreBtn.addEventListener('click', onClickLoadImages);

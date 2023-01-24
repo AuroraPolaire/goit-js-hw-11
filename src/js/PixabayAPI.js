@@ -9,30 +9,20 @@ export class PixabayApi {
   #allImages = 0;
 
   async getPhoto() {
-    // const params = {
-    //   params: {
-    //     key: this.#apiId,
-    //     q: this.#query,
-    //     image_type: 'photo',
-    //     orientation: 'horizontal',
-    //     safesearch: 'true',
-    //     per_page: 40,
-    //     page: this.#page,
-    //   },
-    // };
+    const searchParams = {
+      params: {
+        key: this.#apiId,
+        q: this.#query,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: 'true',
+        per_page: 40,
+        page: this.#page,
+      },
+    };
 
-    const url = `${this.#baseUrl}?key=${this.#apiId}&q=${
-      this.#query
-    }&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${
-      this.#page
-    }`;
-
-    try {
-      const response = await axios.get(url);
-      return response;
-    } catch (error) {
-      Notify.failure(error.message);
-    }
+    const response = await axios.get(`${this.#baseUrl}`, searchParams);
+    return response;
   }
 
   get query() {
