@@ -10,7 +10,7 @@ export function gallery(images) {
         comments,
         downloads,
       }) =>
-        `<a href="${largeImageURL}"><div class="photo-card">
+        `<a href="${largeImageURL}" class="photo-link"><div class="photo-card">
    <img class="img" src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
